@@ -1,0 +1,238 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[british,UKenglish,USenglish,american]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{asymptote}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asydef}
+import three;
+import solids;
+
+arrowhead3 globalHead;
+globalHead.head = DefaultHead3.head;
+globalHead.size = new real(pen p=currentpen) {return 2mm;};
+
+arrowhead3 localHead;
+localHead.head = DefaultHead3.head;
+localHead.size = new real(pen p=currentpen) {return 4mm;};
+
+currentlight = light(gray(0.5), specularfactor=3, viewport=false, (0.5,-0.5,-0.25), (0.5,0.5,0.25), (0.5,0.5,1), (-0.5,-0.5,-1));
+\end{asydef}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+triple O = (0,0,0);
+triple X = (1,0,0);
+triple Y = (0,1,0);
+triple Z = (0,0,1);
+
+// Global axis
+transform3 b = scale3(-1.3), e = scale3(1.3);
+draw(b*X--e*X, black+solid, Arrow3(globalHead));
+draw(b*Y--e*Y, black+solid, Arrow3(globalHead));
+draw(b*O--e*Z, black+solid, Arrow3(globalHead));
+
+// XY-plane circle
+path3 circXY = arc(O, 1, 90, 0, 90, 360);
+draw(circXY, gray + dotted);
+
+// ZX-plane circle
+path3 circZX = arc(O, 1, 0, 0, 360, 0);
+draw(circZX, gray + dotted);
+
+// YZ-plane circle
+path3 circYZ[] = arc(O, 1, 90, 90, 360, 360)^^arc(O, 1, 90, 90, 0, 360);
+draw(circYZ, gray + dotted);
+
+// Unrotated vectors
+draw(O--X, linewidth(2pt) + solid + red,   Arrow3(localHead), currentlight);
+draw(O--Y, linewidth(2pt) + solid + green, Arrow3(localHead), currentlight);
+draw(O--Z, linewidth(2pt) + solid + blue,  Arrow3(localHead), currentlight);
+
+// Axis labels
+label("$x$", scale3(1.4) * X, black);
+label("$y$", scale3(1.4) * Y, black);
+label("$z$", scale3(1.4) * Z, black);
+\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+triple O = (0,0,0);
+triple X = (1,0,0);
+triple Y = (0,1,0);
+triple Z = (0,0,1);
+
+// Global axis
+transform3 b = scale3(-1.3), e = scale3(1.3);
+draw(b*X--e*X, black+solid, Arrow3(globalHead));
+draw(b*Y--e*Y, black+solid, Arrow3(globalHead));
+draw(b*O--e*Z, black+solid, Arrow3(globalHead));
+
+// Rotations defs
+triple dir1 = Z;
+real angle1 = 30;
+
+// Clear coordinates
+triple X0 = X;
+triple Y0 = Y;
+triple Z0 = Z;
+
+// Z-axis rotation
+transform3 rot1 = rotate(angle1, dir1);
+triple X1 = rot1 * X0;
+triple Y1 = rot1 * Y0;
+triple Z1 = rot1 * Z0;
+
+// XY-plane circle
+path3 circXY = arc(O, 1, 90, 0, 90, 360);
+draw(circXY, gray + dotted);
+
+// Rotated vectors
+draw(O--X1, linewidth(2pt) + solid + red,   Arrow3(localHead), currentlight);
+draw(O--Y1, linewidth(2pt) + solid + green, Arrow3(localHead), currentlight);
+draw(O--Z1, linewidth(2pt) + solid + blue,  Arrow3(localHead), currentlight);
+
+// Axis labels
+label("$x$", scale3(1.4) * X, black);
+label("$y$", scale3(1.4) * Y, black);
+label("$z$", scale3(1.4) * Z, black);
+\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+triple O = (0,0,0);
+triple X = (1,0,0);
+triple Y = (0,1,0);
+triple Z = (0,0,1);
+
+// Global axis
+transform3 b = scale3(-1.3), e = scale3(1.3);
+draw(b*X--e*X, black+solid, Arrow3(globalHead));
+draw(b*Y--e*Y, black+solid, Arrow3(globalHead));
+draw(b*O--e*Z, black+solid, Arrow3(globalHead));
+
+// Rotations defs
+triple dir1 = Z;
+real angle1 = 30;
+triple dir2 = Y;
+real angle2 = 30;
+
+// Clear coordinates
+triple X0 = X;
+triple Y0 = Y;
+triple Z0 = Z;
+
+// 1-st rotation
+transform3 rot1 = rotate(angle1, dir1);
+triple X1 = rot1 * X0;
+triple Y1 = rot1 * Y0;
+triple Z1 = rot1 * Z0;
+
+// 2-nd rotation
+transform3 rot2 = rotate(angle2, rot1 * dir2);
+triple X2 = rot2 * X1;
+triple Y2 = rot2 * Y1;
+triple Z2 = rot2 * Z1;
+
+// ZX-plane circle
+path3 circZX = arc(O, 1, 0, 0, 360, 360);
+draw(rot1 * circZX, gray + dotted);
+
+// Rotated vectors
+draw(O--X2, linewidth(2pt) + solid + red,   Arrow3(localHead), currentlight);
+draw(O--Y2, linewidth(2pt) + solid + green, Arrow3(localHead), currentlight);
+draw(O--Z2, linewidth(2pt) + solid + blue,  Arrow3(localHead), currentlight);
+
+// Axis labels
+label("$x$", scale3(1.4) * X, black);
+label("$y$", scale3(1.4) * Y, black);
+label("$z$", scale3(1.4) * Z, black);
+\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+triple O = (0,0,0);
+triple X = (1,0,0);
+triple Y = (0,1,0);
+triple Z = (0,0,1);
+
+// Global axis
+transform3 b = scale3(-1.3), e = scale3(1.3);
+draw(b*X--e*X, black+solid, Arrow3(globalHead));
+draw(b*Y--e*Y, black+solid, Arrow3(globalHead));
+draw(b*O--e*Z, black+solid, Arrow3(globalHead));
+
+// Rotations defs
+triple dir1 = Z;
+real angle1 = 30;
+triple dir2 = Y;
+real angle2 = 30;
+triple dir3 = X;
+real angle3 = 15;
+
+// Clear coordinates
+triple X0 = X;
+triple Y0 = Y;
+triple Z0 = Z;
+
+// 1-st rotation
+transform3 rot1 = rotate(angle1, dir1);
+triple X1 = rot1 * X0;
+triple Y1 = rot1 * Y0;
+triple Z1 = rot1 * Z0;
+
+// 2-nd rotation
+transform3 rot2 = rotate(angle2, rot1 * dir2);
+triple X2 = rot2 * X1;
+triple Y2 = rot2 * Y1;
+triple Z2 = rot2 * Z1;
+
+// 3-rd rotation
+transform3 rot3 = rotate(angle3, rot2 * rot1 * dir3);
+triple X3 = rot3 * X2;
+triple Y3 = rot3 * Y2;
+triple Z3 = rot3 * Z2;
+
+// YZ-plane circle
+path3 circYZ[] = arc(O, 1, 90, 90, 360, 360)^^arc(O, 1, 90, 90, 0, 360);
+draw(rot2 * rot1 * circYZ, gray + dotted);
+
+// Rotated vectors
+draw(O--X3, linewidth(2pt) + solid + red,   Arrow3(localHead), currentlight);
+draw(O--Y3, linewidth(2pt) + solid + green, Arrow3(localHead), currentlight);
+draw(O--Z3, linewidth(2pt) + solid + blue,  Arrow3(localHead), currentlight);
+
+// Axis labels
+label("$x$", scale3(1.4) * X, black);
+label("$y$", scale3(1.4) * Y, black);
+label("$z$", scale3(1.4) * Z, black);
+\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{asy}
+%import three;
+%size(15cm);
+%defaultrender.merge = true;
+%currentprojection = perspective(24,14,13);
+%currentlight = light(gray(0.5), specularfactor=3, viewport=false, (0.5,-0.5,-0.25), (0.5,0.5,0.25), (0.5,0.5,1), (-0.5,-0.5,-1));
+%
+%defaultpen(1.75mm);
+%path3 g = arc(O, 1, 90, -60, 90, 60);
+%transform3 t = shift(invert(3S, O));
+%
+%draw(scale3(6)*g, red, Arrows3(DefaultHead3), currentlight);
+%\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

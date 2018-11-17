@@ -1,0 +1,225 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[british,UKenglish,USenglish,american]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{asymptote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asydef}
+import three;
+import solids;
+\end{asydef}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+currentprojection=perspective(camera=camera(1, 1), autoadjust=true, up=X);
+
+arrowhead3 globalHead;
+globalHead.head = DefaultHead3.head;
+globalHead.size = new real(pen p=currentpen) {return 2mm;};
+
+arrowhead3 localHead;
+localHead.head = DefaultHead3.head;
+localHead.size = new real(pen p=currentpen) {return 4mm;};
+
+currentlight = light(gray(0.5), specularfactor=3, viewport=false, (0.5,-0.5,-0.25), (0.5,0.5,0.25), (0.5,0.5,1), (-0.5,-0.5,-1));
+
+real angle = 150;
+triple K = (0,0,1);
+transform3 rotation = rotate(angle, K);
+
+triple O  = (0,0,0);
+triple V0 = (0,1,2);
+triple V1 = rotation * V0;
+triple S  = scale3(dot(V0, K)) * K;
+
+path3 v0 = (O--V0);
+path3 v1 = (O--V1);
+path3 s  = (O--S);
+path3 t0 = (S--V0);
+path3 t1 = (S--V1);
+
+draw(scale3(-0.2)*K--scale3(2.5)*K, black+dashed, Arrow3(globalHead));
+
+path3 clearArc  = arc(S, 1, 90, 90 + angle, 90, 90);
+path3 markedArc = arc(S, 1, 90, 90, 90, 90 + angle);
+draw(clearArc, gray+dotted);
+draw(markedArc, royalblue, Arrow3(Relative(0.6)));
+draw(surface(S -- markedArc -- cycle), royalblue+opacity(.1));
+
+draw(v0, linewidth(2pt)+lightred+solid, Arrow3(localHead), currentlight);
+draw(v1, linewidth(2pt)+red+solid, Arrow3(localHead), currentlight);
+
+\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+
+arrowhead3 globalHead;
+globalHead.head = DefaultHead3.head;
+globalHead.size = new real(pen p=currentpen) {return 2mm;};
+
+arrowhead3 localHead;
+localHead.head = DefaultHead3.head;
+localHead.size = new real(pen p=currentpen) {return 4mm;};
+
+currentlight = light(gray(0.5), specularfactor=3, viewport=false, (0.5,-0.5,-0.25), (0.5,0.5,0.25), (0.5,0.5,1), (-0.5,-0.5,-1));
+
+real angle = 150;
+triple K = (0,0,1);
+transform3 rotation = rotate(angle, K);
+
+triple O  = (0,0,0);
+triple V0 = (0,1,2);
+triple V1 = rotation * V0;
+triple S  = scale3(dot(V0, K)) * K;
+
+path3 v0 = (O--V0);
+path3 v1 = (O--V1);
+path3 s  = (O--S);
+path3 t0 = (S--V0);
+path3 t1 = (S--V1);
+
+//transform3 HH = rotate(-90, (1, 2, 0));
+transform3 HH = rotate(-90, (1, 2, 0)) * rotate(0, (0, 0, 1));
+//draw(HH*scale3(-0.2)*K--HH*scale3(2.5)*K, black+solid, Arrow3(globalHead));
+draw(HH*scale3(-0.2)*K--HH*scale3(2.5)*K, black+dashed, Arrow3(globalHead));
+
+path3 clearArc  = arc(S, 1, 90, 90 + angle, 90, 90);
+path3 markedArc = arc(S, 1, 90, 90, 90, 90 + angle);
+draw(HH*clearArc, gray+dotted);
+draw(HH*markedArc, royalblue, Arrow3(Relative(0.6)));
+draw(surface(HH*S -- HH*markedArc -- cycle), royalblue+opacity(.1));
+
+draw(HH*v0, linewidth(2pt)+lightred+solid, Arrow3(localHead), currentlight);
+draw(HH*v1, linewidth(2pt)+red+solid, Arrow3(localHead), currentlight);
+
+\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{asy}[width=5cm]
+%
+%arrowhead3 globalHead;
+%globalHead.head = DefaultHead3.head;
+%globalHead.size = new real(pen p=currentpen) {return 2mm;};
+%
+%arrowhead3 localHead;
+%localHead.head = DefaultHead3.head;
+%localHead.size = new real(pen p=currentpen) {return 4mm;};
+%
+%currentlight = light(gray(0.5), specularfactor=3, viewport=false, (0.5,-0.5,-0.25), (0.5,0.5,0.25), (0.5,0.5,1), (-0.5,-0.5,-1));
+%
+%real angle = 150;
+%triple K = (0,0,1);
+%transform3 rotation = rotate(angle, K);
+%
+%triple O  = (0,0,0);
+%triple V0 = (0,1,2);
+%triple V1 = rotation * V0;
+%triple S  = scale3(dot(V0, K)) * K;
+%
+%path3 v0 = (O--V0);
+%path3 v1 = (O--V1);
+%path3 s  = (O--S);
+%path3 t0 = (S--V0);
+%path3 t1 = (S--V1);
+%
+%transform3 HH = rotate(-90, (1, 2, 0));
+%draw(HH*scale3(-0.2)*K--HH*scale3(2.5)*K, black+dashed, Arrow3(globalHead));
+%
+%draw(HH*s,  linewidth(2pt)+red+solid, Arrow3(localHead), currentlight);
+%draw(HH*t0, linewidth(2pt)+green+solid, Arrow3(localHead), currentlight);
+%draw(HH*v0, linewidth(2pt)+gray+opacity(.1)+solid, Arrow3(localHead), currentlight);
+%
+%\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+
+arrowhead3 globalHead;
+globalHead.head = DefaultHead3.head;
+globalHead.size = new real(pen p=currentpen) {return 2mm;};
+
+arrowhead3 localHead;
+localHead.head = DefaultHead3.head;
+localHead.size = new real(pen p=currentpen) {return 4mm;};
+
+currentlight = light(gray(0.5), specularfactor=3, viewport=false, (0.5,-0.5,-0.25), (0.5,0.5,0.25), (0.5,0.5,1), (-0.5,-0.5,-1));
+
+real angle = 150;
+triple K = (0,0,1);
+transform3 rotation = rotate(angle, K);
+
+triple O  = (0,0,0);
+triple V0 = (0,1,2);
+triple V1 = rotation * V0;
+triple S  = scale3(dot(V0, K)) * K;
+
+path3 s  = (O--S);
+
+transform3 HH = rotate(-90, (1, 2, 0));
+draw(HH*scale3(-0.2)*K--HH*scale3(2.5)*K, black+dashed, Arrow3(globalHead));
+
+//path3 markedArc = arc(scale3(0.6)*S, 0.2, 90, 90, 90, 90 + angle);
+path3 markedArc = arc(scale3(0.6)*S, 0.2, 90, 90, 90, 80);
+draw(HH*markedArc, royalblue, Arrow3(globalHead));
+
+draw(HH*s, linewidth(2pt)+red+solid, Arrow3(localHead), currentlight);
+
+\end{asy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{asy}[width=5cm]
+
+arrowhead3 globalHead;
+globalHead.head = DefaultHead3.head;
+globalHead.size = new real(pen p=currentpen) {return 2mm;};
+
+arrowhead3 localHead;
+localHead.head = DefaultHead3.head;
+localHead.size = new real(pen p=currentpen) {return 4mm;};
+
+currentlight = light(gray(0.5), specularfactor=3, viewport=false, (0.5,-0.5,-0.25), (0.5,0.5,0.25), (0.5,0.5,1), (-0.5,-0.5,-1));
+
+real angle = 150;
+triple K = (0,0,1);
+transform3 rotation = rotate(angle, K);
+
+triple O  = (0,0,0);
+triple V0 = (0,1,2);
+triple V1 = rotation * V0;
+triple S  = scale3(dot(V0, K)) * K;
+
+path3 v0 = (O--V0);
+path3 v1 = (O--V1);
+path3 s  = (O--S);
+path3 t0 = (S--V0);
+path3 t1 = (S--V1);
+
+transform3 HH = rotate(-90, (1, 2, 0));
+draw(HH*scale3(-0.2)*K--HH*scale3(2.5)*K, black+dashed, Arrow3(globalHead));
+
+path3 clearArc = arc(S, 1, 90, 90 + angle, 90, 90);
+path3 markedArc = arc(S, 1, 90, 90, 90, 90 + angle);
+draw(HH*clearArc, gray+dotted);
+//draw(HH*markedArc, royalblue, Arrow3(globalHead));
+draw(HH*markedArc, royalblue, Arrow3(Relative(0.6)));
+draw(surface(HH*S -- HH*markedArc -- cycle), royalblue+opacity(.1));
+
+draw(HH*t0, linewidth(2pt)+lightred+solid, Arrow3(localHead), currentlight);
+draw(HH*t1, linewidth(2pt)+red+solid, Arrow3(localHead), currentlight);
+
+\end{asy}
+
+\end{document}
