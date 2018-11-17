@@ -2,20 +2,11 @@ import three;
 import solids;
 import obj;
 
-
 size(5cm);
-currentprojection=orthographic((5,2,1), up=Y);
+//currentprojection=orthographic((0,1,0), up=Y);
+currentprojection=perspective((0,1,0), up=Y);
 
-
-//pen[] surfacepen = {darkred, brown, darkred+orange, heavyred, heavyred, darkred+orange, palegreen+blue+lightgrey, darkred, darkred, yellow, darkred, white, white, white, white, white, white};
-//surfacepen.cyclic = true;
-//draw(obj("galleon.obj", verbose=false, surfacepen));
-
-
-transform3 rot = rotate(90, Y);
-transform3 shf = shift(3*Y);
-draw(shf*rot*obj("cessna.obj", gray));
-//draw(obj("cessna_ex.obj", gray));
+draw(obj("cessna2.obj", gray));
 
 
 arrowhead3 localHead;
